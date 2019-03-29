@@ -41,14 +41,14 @@ void main(void)
     
     vec3 toLight = lightPosition - worldPosition;
     vec3 toViewer = cameraPosition - worldPosition;
+    vec3 halfway = normalize(toLight + toViewer);
     vec3 lightDir = normalize(toLight);
-    vec3 viewDir = normalize(toViewer);
     
     // Diffuse lighting calculation
     float nl = clamp(dot(worldNormal, lightDir), 0.0, 1.0);
     
     // Specular lighting calculation
-    float sl = clamp(dot(viewDir, reflect(worldNormal, lightDir)), 0.0, 1.0);
+    float sl = clamp(dot(worldNormal, halfway), 0.0, 1.0);
     sl = pow(sl, shininess);
 
     fragColor = (kA + (kD * nl) + (kS * sl)) * baseColor;
